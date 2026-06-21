@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1. 这里的 namespace 必须绝对匹配你的 Java 接口路径 -->
+<mapper namespace="org.com.gx.ebusiness.mapper.UserMapper">
+
+    <!-- 2. 这里的 resultType 其实可以受 aliases 影响，如果你配好了 aliases，这里可以简写为 BUser -->
+    <select id="findByEmail" resultType="org.com.gx.ebusiness.entity.BUser">
+        select * from busertable where bemail = #{bemail}
+    </select>
+
+    <insert id="insertUser" parameterType="org.com.gx.ebusiness.entity.BUser">
+        insert into busertable (bemail, bpwd) values (#{bemail}, #{bpwd})
+    </insert>
+</mapper>

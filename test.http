@@ -1,0 +1,27 @@
+### 注册一个新用户
+POST http://localhost:8010/api/user/register
+Content-Type: application/json
+
+{
+  "bemail": "newuser@qq.com",
+  "bpwd": "123456"
+}
+
+### 登录测试
+POST http://localhost:8010/api/user/login
+Content-Type: application/json
+
+{
+  "bemail": "newuser@qq.com",
+  "bpwd": "123456"
+}
+
+### 测试带 Token 访问（应该返回 404，但不再是 403）
+### 测试带 Token 访问（加上了 Bearer）
+GET http://localhost:8010/api/user/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXd1c2VyQHFxLmNvbSIsImlhdCI6MTc4MjAzNTExMywiZXhwIjoxODEzNTcxMTEzfQ.RlTl3fMPz1nPLihrvgfqveS8Ll-NEHrOKjuXVrNwn6Q
+
+
+### 测试拦截器（故意用错误 Token，应该秒回 403）
+GET http://localhost:8010/api/user/profile
+Authorization: Bearer I_AM_A_WRONG_TOKEN
