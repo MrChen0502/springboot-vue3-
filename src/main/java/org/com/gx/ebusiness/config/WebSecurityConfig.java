@@ -16,27 +16,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter; // 注入我们即将写的过滤器
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // 前后端分离不用 CSRF
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
 
-                // 放行登录和注册，其他所有接口都需要认证
+                // 除了登录和注册，其他所有接口都得带上 Token 才能访问
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register", "/user/login").permitAll()
                         .anyRequest().authenticated()
                 )
 
+                // 不用 Session，用 Token
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // 💡 核心：在 UsernamePasswordAuthenticationFilter 之前，加入我们的 JWT 过滤器
+                // 把我们的 JWT 过滤器插到 Spring Security 的过滤器链里
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

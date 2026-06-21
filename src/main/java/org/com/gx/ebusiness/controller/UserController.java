@@ -29,11 +29,10 @@ public class UserController {
 
     @PostMapping("/login")
     public Result<String> login(@RequestBody BUser bUser) {
-        // 1. 调用 Service 查库并校验密码
         BUser user = userService.login(bUser.getBemail(), bUser.getBpwd());
 
         if (user != null) {
-            // 2. 登录成功！不再返回用户对象，而是生成并返回 Token
+            // 登录成功，不返回用户信息，返回一个 Token 给前端
             String token = jwtUtil.generateToken(user.getBemail());
             return Result.success(token);
         } else {

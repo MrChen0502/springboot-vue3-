@@ -7,11 +7,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-    // 负责跨域
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // 允许所有路径
-                .allowedOriginPatterns("*") // 允许所有源（前端地址）
+        registry.addMapping("/**") // 所有接口都允许跨域
+                .allowedOriginPatterns("*") // 允许所有前端地址调用
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
