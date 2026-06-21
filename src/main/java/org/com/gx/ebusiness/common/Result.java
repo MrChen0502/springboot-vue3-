@@ -19,9 +19,9 @@ public class Result<T> {
 
     // 失败的时候调这个
     public static <T> Result<T> error(String msg) {
-        Result<T> r = new Result<>();
-        r.setCode(500);
-        r.setMsg(msg);
-        return r;
+        Result<T> result = new Result<>();
+        result.setCode(500);
+        result.setMsg(msg);
+        return result;
     }
 }
